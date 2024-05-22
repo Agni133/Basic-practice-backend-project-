@@ -37,6 +37,7 @@ function userExists(username, password) {
 }
     return userExists;
   }
+}
     
 
 app.post("/signin", function (req, res) {
