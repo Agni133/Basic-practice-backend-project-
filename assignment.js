@@ -4,6 +4,8 @@ const jwtPassword = "123456";
 
 const app = express();
 
+app.use(express.json());
+
 const ALL_USERS = [
   {
     username: "harkirat@gmail.com",
@@ -25,8 +27,17 @@ const ALL_USERS = [
 function userExists(username, password) {
   // write logic to return true or false if this user exists
   // in ALL_USERS arrayh
-  return ALL_USERS.some(user => user.username === username && user.password === password);
+  let userExists= false;
+
+  for(let i=0;i>=ALL_USERS.length;i++){
+
+    if(ALL_USERS[i].username==username && ALL_USERS[i].password ==password){
+         userExists= true;
+ //  
 }
+    return userExists;
+  }
+    
 
 app.post("/signin", function (req, res) {
   const username = req.body.username;
@@ -51,12 +62,18 @@ app.get("/users", function (req, res) {
     const username = decoded.username;
         
     // return a list of users other than this username
-    const users = ALL_USERS.filter(user => user.username !== username).map(user => ({
-        username: user.username,
-        name: user.name,
-      }));
-      
-      return res.json(users);
+    const users = ALL_USERS.filter(function(value){
+
+       if(value.username==username){
+
+           return false;
+       }else{
+
+          return true;
+       }
+
+    });
+        
   } catch (err) {
     return res.status(403).json({
       msg: "Invalid token",
